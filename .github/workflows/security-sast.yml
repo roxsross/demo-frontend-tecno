@@ -28,25 +28,25 @@ jobs:
         with:
           args: '. --sarif --output results.sarif || true'
 
-  SCA:
-    runs-on: ubuntu-latest
-    name: Dependency-Checker
-    steps:
-      - uses: actions/checkout@v3
-      - name: Install dependencies
-        run: |
-          pip install safety
-      - name: Scan using safety
-        continue-on-error: true
-        run: |
-          safety check --full-report
-          safety check --json
+  # SCA:
+  #   runs-on: ubuntu-latest
+  #   name: Dependency-Checker
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - name: Install dependencies
+  #       run: |
+  #         pip install safety
+  #     - name: Scan using safety
+  #       continue-on-error: true
+  #       run: |
+  #         safety check --full-report
+  #         safety check --json
         
-      - uses: actions/upload-artifact@v2
-        if: always()
-        with:
-          name: safety
-          path: output.json
+  #     - uses: actions/upload-artifact@v2
+  #       if: always()
+  #       with:
+  #         name: safety
+  #         path: output.json
 
   # CONTAINER:
   #   name: Security Trivy
