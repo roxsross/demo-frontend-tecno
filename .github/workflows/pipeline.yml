@@ -1,4 +1,4 @@
-name: pipeline demo frontend tecno                                # workflow name
+name: pipeline demo frontend tecno 2022                                # workflow name
 
 on:
   workflow_dispatch:
