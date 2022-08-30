@@ -19,11 +19,11 @@ jobs:
 
   build:
     uses: ./.github/workflows/build.yml
-    needs: [init,security_sast]
+    needs: [init,security-sast]
 
   deploy:
     uses: ./.github/workflows/deploy.yml
-    needs: [init,security_sast,build]
+    needs: [init,security-sast,build]
 
   security-dast:
     needs: deploy
