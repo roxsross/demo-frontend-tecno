@@ -48,10 +48,10 @@ jobs:
           name: safety
           path: output.json
 
-  CONTAINER:
-    name: Security Trivy
-    needs: [SAST,SECRET,SCA]
-    continue-on-error: true
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+  # CONTAINER:
+  #   name: Security Trivy
+  #   needs: [SAST,SECRET,SCA]
+  #   continue-on-error: true
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
