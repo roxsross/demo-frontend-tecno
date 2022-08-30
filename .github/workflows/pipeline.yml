@@ -15,17 +15,16 @@ jobs:
 
   security-sast:
     uses: ./.github/workflows/security-sast.yml
-    needs: [init,test]
+    needs: [init]
 
   build:
     uses: ./.github/workflows/build.yml
-    needs: [init,test,security_sast]
+    needs: [init,security_sast]
 
   deploy:
     uses: ./.github/workflows/deploy.yml
-    needs: [init,test,security_sast,build]
+    needs: [init,security_sast,build]
 
-  
   security-dast:
     needs: deploy
     uses: ./.github/workflows/security-dast.yml
