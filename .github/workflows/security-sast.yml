@@ -50,6 +50,7 @@ jobs:
 
   CONTAINER:
     name: Security Trivy
+    needs: [SAST,SECRET,SCA]
     continue-on-error: true
     runs-on: ubuntu-latest
     steps:

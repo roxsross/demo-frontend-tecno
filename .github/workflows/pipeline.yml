@@ -21,17 +21,17 @@ jobs:
 
   build:
     uses: ./.github/workflows/build.yml
-    needs: [init,security-sast]
+    needs: [security-sast]
 
   deploy:
     uses: ./.github/workflows/deploy.yml
-    needs: [init,security-sast,build]
+    needs: [build]
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
 
   security-dast:
-    needs: [init,security-sast,build,deploy]
+    needs: [deploy]
     uses: ./.github/workflows/security-dast.yml
     # secrets:
     #   GITHUBTOKEN: ${{ secrets.GITHUBTOKEN }}
