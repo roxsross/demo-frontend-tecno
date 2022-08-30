@@ -30,7 +30,7 @@ jobs:
           npm run build  
           
     - name: Create ZIP deployment package
-      run: cd public;zip ../dist.zip * -r  
+      run: cd dist;zip ../dist.zip * -r  
       
     - uses: actions/upload-artifact@v3
       with:
