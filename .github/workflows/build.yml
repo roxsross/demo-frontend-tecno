@@ -1,0 +1,30 @@
+name: build app
+
+on:
+      workflow_call:
+jobs:
+  init:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js 
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm install
+      # test the apps     
+    - name: build
+      run: |
+          npm run build  
+          
+    - name: Create ZIP deployment package
+      run: cd dist;zip ../dist.zip * -r  
+      
+    - uses: actions/upload-artifact@v3
+      with:
+        name: node-app
+        path: dist.zip  

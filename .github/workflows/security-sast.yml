@@ -1,0 +1,49 @@
+name: security sast
+
+on:
+  workflow_call:
+
+
+jobs:
+  SECRET:
+    runs-on: ubuntu-latest
+    name: Secret-Scanner
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Secret Detection
+        uses: zricethezav/gitleaks-action@master
+        continue-on-error: true 
+
+  SAST:
+    runs-on: ubuntu-latest
+    name: Static-Vulnerability-Scanner
+    steps:
+      - uses: actions/checkout@v3
+      - name: SAST
+        id: njsscan
+        uses: ajinabraham/njsscan-action@master
+        continue-on-error: true 
+        with:
+          args: '. --sarif --output results.sarif || true'
+
+  SCA:
+    runs-on: ubuntu-latest
+    name: Dependency-Checker
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install dependencies
+        run: |
+          pip install safety
+      - name: Scan using safety
+        continue-on-error: true
+        run: |
+          safety check --full-report
+          safety check --json
+        
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: safety
+          path: output.json

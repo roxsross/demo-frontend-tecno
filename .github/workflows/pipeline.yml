@@ -1,0 +1,33 @@
+name: pipeline demo frontend tecno                                # workflow name
+
+on:
+  workflow_dispatch:
+  workflow_call:
+    secrets:
+      GITHUBTOKEN:
+        required: true  
+  push:
+    branches: [ master ]
+jobs:
+
+  init:
+    uses: ./.github/workflows/init-test.yml
+
+  security-sast:
+    uses: ./.github/workflows/security-sast.yml
+    needs: [init,test]
+
+  build:
+    uses: ./.github/workflows/build.yml
+    needs: [init,test,security_sast]
+
+  deploy:
+    uses: ./.github/workflows/deploy.yml
+    needs: [init,test,security_sast,build]
+
+  
+  security-dast:
+    needs: deploy
+    uses: ./.github/workflows/security-dast.yml
+    secrets:
+      GITHUBTOKEN: ${{ secrets.GITHUBTOKEN }}
