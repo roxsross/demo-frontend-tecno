@@ -3,9 +3,9 @@ name: pipeline demo frontend tecno 2022                                # workflo
 on:
   workflow_dispatch:
   workflow_call:
-    secrets:
-      GITHUBTOKEN:
-        required: true  
+    # secrets:
+    #   GITHUBTOKEN:
+    #     required: true  
   push:
     branches: [ master ]
 jobs:
@@ -28,5 +28,5 @@ jobs:
   security-dast:
     needs: deploy
     uses: ./.github/workflows/security-dast.yml
-    secrets:
-      GITHUBTOKEN: ${{ secrets.GITHUBTOKEN }}
+    # secrets:
+    #   GITHUBTOKEN: ${{ secrets.GITHUBTOKEN }}
