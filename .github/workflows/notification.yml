@@ -1,0 +1,10 @@
+name: STAGE NOTIFICATION
+
+on:
+      workflow_call:
+jobs:
+  init:
+    runs-on: ubuntu-latest
+    name: notification
+    steps:
+    - uses: actions/checkout@v3

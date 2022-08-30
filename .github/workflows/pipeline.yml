@@ -35,3 +35,7 @@ jobs:
     uses: ./.github/workflows/security-dast.yml
     # secrets:
     #   GITHUBTOKEN: ${{ secrets.GITHUBTOKEN }}
+
+  notification:
+    needs: security-dast
+    uses: ./.github/workflows/notification.yml  
