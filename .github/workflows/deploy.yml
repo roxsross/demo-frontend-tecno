@@ -5,7 +5,7 @@ on:
       secrets:
         AWS_ACCESS_KEY_ID:
           required: true  
-        AWS_SECRET_ACCESS_KEY:
+        SECRET_ACCESS_KEY:
           required: true     
 env:
   APP_ID: d3qp3lfgf2c69x

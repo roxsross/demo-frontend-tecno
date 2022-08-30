@@ -6,7 +6,7 @@ on:
     secrets:
       AWS_ACCESS_KEY_ID:
         required: true  
-      AWS_SECRET_ACCESS_KEY:
+      SECRET_ACCESS_KEY:
         required: true   
   push:
     branches: [ master ]
@@ -21,14 +21,15 @@ jobs:
 
   build:
     uses: ./.github/workflows/build.yml
-    needs: [security-sast]
+    needs: [init,security-sast]
 
   deploy:
     uses: ./.github/workflows/deploy.yml
-    needs: [build]
+    needs: [init,security-sast,build]
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
+      SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
+
   security-dast:
     needs: deploy
     uses: ./.github/workflows/security-dast.yml
