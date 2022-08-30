@@ -13,18 +13,18 @@ on:
 jobs:
 
   init:
-    uses: ./.github/workflows/pipelines/init-test.yml
+    uses: ./.github/workflows/init-test.yml
 
   security-sast:
-    uses: ./.github/workflows/pipelines/security-sast.yml
+    uses: ./.github/workflows/security-sast.yml
     needs: init
 
   build:
-    uses: ./.github/workflows/pipelines/build.yml
+    uses: ./.github/workflows/build.yml
     needs: [init,security-sast]
 
   deploy:
-    uses: ./.github/workflows/pipelines/deploy.yml
+    uses: ./.github/workflows/deploy.yml
     needs: [init,security-sast,build]
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -32,10 +32,10 @@ jobs:
 
   security-dast:
     needs: [init,security-sast,build,deploy]
-    uses: ./.github/workflows/pipelines/security-dast.yml
+    uses: ./.github/workflows/security-dast.yml
     # secrets:
     #   GITHUBTOKEN: ${{ secrets.GITHUBTOKEN }}
 
   notification:
     needs: security-dast
-    uses: ./.github/workflows/pipelines/notification.yml  
+    uses: ./.github/workflows/notification.yml  
