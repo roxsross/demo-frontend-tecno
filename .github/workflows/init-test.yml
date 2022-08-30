@@ -1,10 +1,11 @@
-name: init
+name: STAGE INIT-TEST
 
 on:
       workflow_call:
 jobs:
   init:
     runs-on: ubuntu-latest
+    name: Init-Test
     strategy:
       matrix:
         node-version: [14.x]
@@ -16,4 +17,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm install
-    - run: npm run test
+    - name: Test
+      run: |
+          npm run test  

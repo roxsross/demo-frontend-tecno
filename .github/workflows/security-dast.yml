@@ -1,4 +1,4 @@
-name: security dast
+name: SECURITY DAST
 
 on:
   workflow_call:

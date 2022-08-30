@@ -1,4 +1,4 @@
-name: build app
+name: STAGE BUILD
 
 on:
       workflow_call:
@@ -16,7 +16,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm install
-      # test the apps     
+   
     - name: build
       run: |
           npm run build  

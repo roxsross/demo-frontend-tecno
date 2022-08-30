@@ -1,4 +1,4 @@
-name: security sast
+name: SECURITY SAST
 
 on:
   workflow_call:
