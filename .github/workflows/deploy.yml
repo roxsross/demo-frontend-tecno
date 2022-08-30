@@ -2,9 +2,9 @@ name: workflow
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
   pull_request:
-    branches: [ main ]
+    branches: [ master ]
 env:
   APP_ID: d3qp3lfgf2c69x
   REPONAME: frontend-bootcamp
