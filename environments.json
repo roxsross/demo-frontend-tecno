@@ -1,0 +1,43 @@
+{
+    "environments":{
+        "origin/develop":{    
+
+            "s3bucketname":"demo-flisol-dev",
+            "s3key" :"", 
+            "TARGET_AWS_ACCOUNT":"459137896070",
+            "TARGET_AWS_ROLE" :"jenkins-deploy-role",
+            "TARGET_REGION" :"us-east-1",
+            "APP_ID":"d14t2k8ompnoqf",
+            "BRANCH_KEY": "develop"
+        },        
+        "develop":{    
+
+            "s3bucketname":"demo-flisol-dev",
+            "s3key" :"", 
+            "TARGET_AWS_ACCOUNT":"459137896070",
+            "TARGET_AWS_ROLE" :"jenkins-deploy-role",
+            "TARGET_REGION" :"us-east-1",
+            "APP_ID":"d14t2k8ompnoqf",
+            "BRANCH_KEY": "develop"
+        },
+        "origin/master":{  
+
+            "s3bucketname":"demo-flisol-master",
+            "s3key" :"", 
+            "TARGET_AWS_ACCOUNT":"459137896070",
+            "TARGET_AWS_ROLE" :"jenkins-deploy-role",
+            "TARGET_REGION" :"us-east-1",
+            "APP_ID":"d14t2k8ompnoqf",
+            "BRANCH_KEY": "master"
+        },   
+        "master":{  
+            "s3bucketname":"demo-flisol-master",
+            "s3key" :"", 
+            "TARGET_AWS_ACCOUNT":"459137896070",
+            "TARGET_AWS_ROLE" :"jenkins-deploy-role",
+            "TARGET_REGION" :"us-east-1",
+            "APP_ID":"d14t2k8ompnoqf",
+            "BRANCH_KEY": "master"
+        }   
+    }   
+}
