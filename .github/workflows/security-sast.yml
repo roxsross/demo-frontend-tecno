@@ -26,3 +26,22 @@ jobs:
         continue-on-error: true 
         with:
           args: '. --sarif --output results.sarif || true'
+  INFRA:
+    runs-on: ubuntu-latest
+    name: Infrastructure misconfig detection
+    steps:
+      - uses: actions/checkout@v3     
+
+  SCA:
+    runs-on: ubuntu-latest
+    name: Dependency-Checker
+    steps:
+      - uses: actions/checkout@v3
+
+  CONTAINER:
+    name: Security Trivy
+    needs: [SAST,SECRET,SCA,INFRA]
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
