@@ -19,6 +19,7 @@ jobs:
   SAST:
     runs-on: ubuntu-latest
     name: Static-Vulnerability-Scanner
+    needs: SECRET
     steps:
       - uses: actions/checkout@v3
       - name: SAST
