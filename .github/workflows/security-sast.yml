@@ -2,6 +2,11 @@ name: STAGE SECURITY SAST
 
 on:
   workflow_call:
+    secrets:
+      SNYK_TOKEN:
+        required: true
+      GITGUARDIAN_API_KEY:
+        required: true    
 
 jobs:
   SECRET:
@@ -14,6 +19,21 @@ jobs:
       - name: Secret Detection
         uses: zricethezav/gitleaks-action@master
         continue-on-error: true 
+      - name: Run Horusec
+        id: run_horusec
+        uses: fike/horusec-action@v0.1
+        continue-on-error: true 
+        with:
+          arguments: --config-file-path=horusec-config.json  
+      - name: GitGuardian scan
+        uses: GitGuardian/ggshield-action@master
+        continue-on-error: true 
+        env:
+          GITHUB_PUSH_BEFORE_SHA: ${{ github.event.before }}
+          GITHUB_PUSH_BASE_SHA: ${{ github.event.base }}
+          GITHUB_PULL_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          GITHUB_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+          GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}     
 
   SAST:
     runs-on: ubuntu-latest
@@ -26,6 +46,10 @@ jobs:
         continue-on-error: true 
         with:
           args: '. --sarif --output results.sarif || true'
+      - name: Upload njsscan report
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: results.sarif
   INFRA:
     runs-on: ubuntu-latest
     name: Infrastructure misconfig detection
@@ -34,9 +58,14 @@ jobs:
 
   SCA:
     runs-on: ubuntu-latest
-    name: Dependency-Checker
+    name: SCAN Snyk
     steps:
       - uses: actions/checkout@v3
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/node@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
   CONTAINER:
     name: Security Trivy
@@ -45,3 +74,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Build an image from Dockerfile
+        run: |
+          docker build -t trivy-image:${{ github.sha }} .
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        continue-on-error: true
+        with:
+          image-ref: 'trivy-image:${{ github.sha }}'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'

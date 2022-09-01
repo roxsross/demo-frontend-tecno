@@ -6,7 +6,7 @@ on:
 jobs:
   zap_scan:
     runs-on: ubuntu-latest
-    name: Scan the webapplication
+    name: Dast Owasp
     steps:
       - name: Checkout
         uses: actions/checkout@v2
